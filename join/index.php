@@ -1,12 +1,15 @@
 <?php
-    require('../dbconnect.php');
     session_start();
+    require('../dbconnect.php');
 
         // 各入力値の初期値を設定
         $name = '';
         $email = '';
         $password = '';
 
+
+
+        // フォームからデータが送信された場合
     if(!empty($_POST)){
         $name = $_POST['name'];
         $email = $_POST['email'];
@@ -15,58 +18,56 @@
           // エラー項目の確認
           // ニックネーム未入力チェック
           if($_POST['name'] == ''){
-            $error['name'] = 'blank';
+              $error['name'] = 'blank';
           }
           // メールアドレス未入力チェック
           if($_POST['email'] == ''){
-            $error['email'] = 'blank';
+              $error['email'] = 'blank';
           }
           // パスワード未入力チェック
           if($_POST['password'] == ''){
-            $error['password'] = 'blank';
+              $error['password'] = 'blank';
           }
           // パスワードが４文字以下の場合
           if(strlen($_POST['password']) < 4){
-            $error['password'] ='length';
+              $error['password'] ='length';
           }
       
     }
 
+    
     // 重複アカウントのチェック
     if(empty($error)){
-      $sql = sprintf('SELECT COUNT(*) As cnt FROM `members` WHERE `email`="%s"',mysqli_real_escape_string($db,$_POST['email']));
-      $record = mysqli_query($db,$sql) or die(mysqli_error($db));
-      $table = mysqli_fetch_assoc($record);
+        $sql = sprintf('SELECT COUNT(*) As cnt 
+                        FROM `members` 
+                        WHERE `email`="%s"',mysqli_real_escape_string($db,$_POST['email']));
+        $record = mysqli_query($db,$sql) or die(mysqli_error($db));
+        $table = mysqli_fetch_assoc($record);
         if($table['cnt'] > 0){
           $error['email'] = 'duplicate';
         }
+
+       
     }
 
     // エラーがなかった場合の処理
     if(empty($error)){
-      // 画像をアップロードする
-      // $image = date('YmdHis') . $_FILES['image']['name'];
-      // move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
 
-      $_SESSION['join'] = $_POST;
-      // $_SESSION['join']['image'] = $image;
-      // header('Location: check.php');
-      // exit();
+         $_SESSION['join'] = $_POST;
+        header('Location: check.php');
+        exit();
+
     }
 
 
-
-
-// 書き直し
+// 書き直し処理
     if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'rewrite'){
       $_POST = $_SESSION['join'];
       $name = $_POST['name'];
       $email = $_POST['email'];
       $password = $_POST['password'];
-
       $error['rewrite'] = true;
     }
-
 
 
 ?>
@@ -138,7 +139,7 @@
         
         <p>次のフォームに必要事項をご記入ください</p>
 
-<form action="check.php" method="post" enctype="multipart/form-data">
+<form action="index.php" method="post" enctype="multipart/form-data">
 
 <dl>
    <dt>ニックネーム<span class="required">(必須)</span></dt>
@@ -167,11 +168,7 @@
     <?php endif; ?>
 
    </dd>
-
-   
     </dd>
-
-
 </dl>
 
 <div><input type="submit" value="入力内容を確認する"></div>

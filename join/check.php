@@ -6,17 +6,17 @@
         header('Location: index.php');
         exit();
     }
+    
 
     if(!empty($_POST)){
      // 登録処理をする
-        $sql = sprintf('INSERT INTO `members` SET `name`="%s", `email`="%s",`password`="%s",`picture`="%s",`created`="%s"',
+        $sql = sprintf('INSERT INTO `members` SET `name`="%s", `email`="%s",`password`="%s",`created`=NOW()',
         mysqli_real_escape_string($db,$_SESSION['join']['name']),
         mysqli_real_escape_string($db,$_SESSION['join']['email']),
-        mysqli_real_escape_string($db,sha1($_SESSION['join']['password'])),
-        mysqli_real_escape_string($db,$_SESSION['join']['image']),date('Y-m-d H:i:s')
-        );
+        mysqli_real_escape_string($db,sha1($_SESSION['join']['password'])));
         mysqli_query($db,$sql) or die(mysqli_error($db));
         unset($_SESSION['join']);
+
 
         header('Location: thanks.php');
         exit();
@@ -29,12 +29,12 @@
   <dl>
     <dt>ニックネーム</dt>
     <dd>
-      <?php echo htmlspecialchars($_SESSION['join']['name']);?>
+      <?php echo $_SESSION['join']['name'];?>
     </dd>
 
     <dt>メールアドレス</dt>
     <dd>
-      <?php echo htmlspecialchars($_SESSION['join']['email']);?>
+      <?php echo $_SESSION['join']['email'] ;?>
     </dd>
 
     <dt>パスワード</dt>
