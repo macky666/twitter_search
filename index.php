@@ -51,16 +51,18 @@
         }
 
     // 画像をアップロードする
-    // if(empty($error)){
+    if(empty($error)){
         $picture = date('YmdHis') . $_FILES['picture']['name'];
         move_uploaded_file($_FILES['picture']['tmp_name'], 'twitter_picture/' . $picture);
+
+        var_dump($_FILES);
 
         // セッションに値を保存
         $_SESSION['join'] = $_POST;
         $_SESSION['join']['picture'] = $picture;
-        // header('Location: check2.php');
-        // exit();
-    // }
+        header('Location: check2.php');
+        exit();
+    }
 
 
 
