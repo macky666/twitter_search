@@ -2,8 +2,8 @@
     session_start();
     require('dbconnect.php');
 
-    // if(isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()){
-    //     $_SESSION['time'] = time();
+    if(isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()){
+        $_SESSION['time'] = time();
 
         // ようこそ◎◎さん
         $sql = sprintf('SELECT * FROM `members` WHERE id="%d"',
@@ -11,11 +11,11 @@
                );
         $record = mysqli_query($db,$sql) or die(mysql_error($db));
         $member = mysqli_fetch_assoc($record);
-    // }else{
-    //     // ログインしていない
-    //     header('Location; login.php');
-    //     exit();
-    // }
+    }else{
+        // ログインしていない
+        header('Location; login.php');
+        exit();
+    }
 
 
     // 各変数の初期値設定
@@ -24,25 +24,23 @@
     $comment = '';
 
     // 名前、アカウント名、画像、コメントが入力された場合
-     if(!empty($_POST)){
-          $name = $_POST['name'];
-          $username = $_POST['username'];
-          $comment = $_POST['comment'];
+    if(!empty($_POST)){
+        $name = $_POST['name'];
+        $username = $_POST['username'];
+        $comment = $_POST['comment'];
 
-          // 名前未入力チェック
-          if($_POST['name'] == ''){
-              $error['name'] = 'blank';
-          }
+        // 名前未入力チェック
+        if($_POST['name'] == ''){
+            $error['name'] = 'blank';
+        }
 
-          // アカウント名未入力チェック
-          if($_POST['username'] == ''){
-              $error['username'] = 'blank';
-          }
+        // アカウント名未入力チェック
+        if($_POST['username'] == ''){
+            $error['username'] = 'blank';
+        }
 
-     }
-
-    // 画像ファイルの拡張子チェック
-    $filename = $_FILES['picture']['name'];
+        // 画像ファイルの拡張子チェック
+        $filename = $_FILES['picture']['name'];
         if(!empty($filename)){
             $ext = substr($filename, -3);
             if($ext != 'jpg' && $ext != 'gif' && $ext != 'png'){
@@ -50,30 +48,23 @@
             }
         }
 
-    // 画像をアップロードする
-    if(empty($error)){
-        $picture = date('YmdHis') . $_FILES['picture']['name'];
-        move_uploaded_file($_FILES['picture']['tmp_name'], 'twitter_picture/' . $picture);
 
-        var_dump($_FILES);
+        // 画像をアップロードする
+        if(empty($error)){
+            $picture = date('YmdHis') . $_FILES['picture']['name'];
+            move_uploaded_file($_FILES['picture']['tmp_name'], 'twitter_picture/' . $picture);
 
-        // セッションに値を保存
-        $_SESSION['join'] = $_POST;
-        $_SESSION['join']['picture'] = $picture;
-        header('Location: check2.php');
-        exit();
+            var_dump($_FILES);
+
+            // セッションに値を保存
+            $_SESSION['join'] = $_POST;
+            $_SESSION['join']['picture'] = $picture;
+            header('Location: check2.php');
+            exit();
+        }
     }
 
 
-
-
-
-    // 検索処理
-    if(!empty($_GET['search'])){
-        $sql = sprintf('SELECT `name` FROM `accounts` LIKE %%%s%%',
-                mysqli_real_escape_string($db,$_GET['search'])
-          );
-    }
 
 
 
@@ -127,47 +118,54 @@
     </nav>
 
     <div class="container">
-
       <div class="starter-template">
-      <legend>ようこそ<?php echo $member['name']; ?>さん！</legend>
-        <h1>おもしろtwitterアカウント</h1>
 
-        <form action="" method="post" enctype="multipart/form-data">
-        <div class="lead">追加したい時
-          <div>ツイッター名
-            <input type="text" name="name" value="<?php echo $name; ?>">
-           </div>
+        <legend>ようこそ<?php echo $member['name']; ?>さん！</legend>
+          <h1>おもしろtwitterアカウント</h1>
 
-          <div>アカウント　
-            <input type="text" name="username" value="<?php echo $username; ?>">
+          <form action="" method="post" enctype="multipart/form-data">
+            <div class="lead">追加したい時
+              <div>ツイッター名
+                <input type="text" name="name" value="<?php echo $name; ?>">
+                  <?php if(isset($error['name']) && $error['name'] == 'blank'): ?>
+                    <p class="error">※ツイッター名を入力してください</p>
+                  <?php endif; ?>
+               </div>
+
+            <div>アカウント　
+              <input type="text" name="username" value="<?php echo $username; ?>">
+                <?php if(isset($error['username']) && $error['username'] == 'blank'): ?>
+                  <p class="error">※アカウントIDを入力してください</p>
+                <?php endif; ?>
+            </div>
+
+            <div>画像
+              <p><input type="file" name="picture">
+                <?php if(isset($error['picture']) && $error['picture'] == 'type'): ?><br>
+                  <p style="color:red;">✴︎　プロフィール画像は「jpg」「gif」「png」の画像を指定してください</p>
+                <?php endif; ?>
+                <?php if(!empty($error)): ?><br>
+                  <p style="color:red;">✴︎　画像を再設定してください</p>
+                <?php endif; ?>
+              </p>
+            </div>
+
+              <div>コメント
+                <textarea name="comment" ><?php echo $comment; ?></textarea>
+              </div>
+
+              <div>
+                <input type="submit" value="登録する">
+              </div>
+            </form>
           </div>
 
-          <div>画像
-            <p><input type="file" name="picture">
-            <?php if(isset($error['picture']) && $error['picture'] == 'type'): ?><br>
-                <p style="color:red;">✴︎　プロフィール画像は「jpg」「gif」「png」の画像を指定してください</p>
-              <?php endif; ?>
-              <?php if(!empty($error)): ?><br>
-                <p style="color:red;">✴︎　画像を再設定してください</p>
-              <?php endif; ?>
-            </p>
-          </div>
 
-          <div>コメント
-            <textarea name="comment" ><?php echo $comment; ?></textarea>
-          </div>
-
-          <div>
-            <input type="submit" value="登録する">
-          </div>
-          </form>
-        </div>
-
-
-        <form action="" method="get">
+        <form action="view.php" method="post">
         <h3>検索したい時</h3>
         <input type="text" name="search">
-        <input type="submit" value="検索">
+        <input type="submit" value="検索" class="btn btn-success btn-xs">
+        <input type="hidden" name="">
       </div>  
       </form>
       </div>

@@ -6,13 +6,21 @@
     // もし登録ボタンが押されたら
     if(!empty($_POST)){
             //登録処理
-        $sql = sprintf('INSERT INTO `accounts` SET `name`="%s",`username`="%s",`picture`="%s",`comment`="%s",`created`=NOW()',
+        $sql = sprintf('INSERT INTO `accounts` 
+                        SET `name`="%s",
+                            `username`="%s",
+                            `picture`="%s",
+                            `comment`="%s",
+                            `created`=NOW()',
                mysqli_real_escape_string($db,$_SESSION['join']['name']),
                mysqli_real_escape_string($db,$_SESSION['join']['username']),
                mysqli_real_escape_string($db,sha1($_SESSION['join']['picture'])),
                mysqli_real_escape_string($db,$_SESSION['join']['comment']));
               mysqli_query($db,$sql) or die(mysqli_error($db));
               unset($_SESSION['join']);
+
+              header('Location: thanks2.php');
+              exit();
 
     }
 

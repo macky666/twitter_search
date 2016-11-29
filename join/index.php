@@ -143,32 +143,31 @@
 
 <dl>
    <dt>ニックネーム<span class="required">(必須)</span></dt>
-   <dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo htmlspecialchars($name); ?>">
-   <?php if(isset($error['name']) && $error['name'] == 'blank'): ?>
-   <p class="error">ニックネームを入力してください</p>
-   <?php endif; ?>
-   </dd>
+     <dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo htmlspecialchars($name); ?>">
+       <?php if(isset($error['name']) && $error['name'] == 'blank'): ?>
+         <p class="error">ニックネームを入力してください</p>
+       <?php endif; ?>
+   　</dd>
 
    <dt>メールアドレス<span class="required">(必須)</span></dt>
-   <dd><input type="text" name="email" size="35" maxlength="255" value="<?php echo htmlspecialchars($email); ?>">
-   <?php if(isset($error['email']) && $error['email'] == 'blank'): ?>
-   <p class="error">メールアドレスを入力してください</p>
-   <?php endif; ?>
+     <dd><input type="text" name="email" size="35" maxlength="255" value="<?php echo htmlspecialchars($email); ?>">
+       <?php if(isset($error['email']) && $error['email'] == 'blank'): ?>
+         <p class="error">メールアドレスを入力してください</p>
+       <?php endif; ?>
    </dd>
 
 
    <dt>パスワード<span class="required">(必須)</span></dt>
-   <dd><input type="password" name="password" size="10" maxlength="20" value="<?php echo $password; ?>">
-    <?php if(isset($error['password']) && $error['password'] == 'blank'): ?>
-    <p class="error">パスワードを入力してください</p>
-    <?php endif; ?>
+     <dd><input type="password" name="password" size="10" maxlength="20" value="<?php echo $password; ?>">
+        <?php if(isset($error['password']) && $error['password'] == 'blank'): ?>
+          <p class="error">パスワードを入力してください</p>
+        <?php endif; ?>
 
-    <?php if(isset($error['password']) && $error['password'] == 'length'): ?>
-    <p class = "error">パスワードは４文字以上で入力してください</p>
-    <?php endif; ?>
+        <?php if(isset($error['password']) && $error['password'] == 'length'): ?>
+          <p class = "error">パスワードは４文字以上で入力してください</p>
+        <?php endif; ?>
 
-   </dd>
-    </dd>
+     </dd>
 </dl>
 
 <div><input type="submit" value="入力内容を確認する"></div>
