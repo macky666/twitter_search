@@ -1,24 +1,16 @@
 <?php 
     session_start();
     require('dbconnect.php');
-
-    // $sql = sprintf('SELECT `picture`,`name`,`username`
-    //                 FROM `accounts`
-    //                 WHERE a.`member_id` = m.`id`
-    //                 AND a.`id`=%d',
-    //                 mysqli_real_escape_string($db,$_REQUEST['account_id'])
-    //                 );
-    // $accounts = mysqli_query($db,$sql) or die(mysqli_error($db));
-
+    
 
     // 検索処理
     if(!empty($_POST)){
         $sql = sprintf('SELECT `name`,`comment`
                         FROM `accounts` 
-                        LIKE %%%s%%',
-              　mysqli_real_escape_string($db,$_POST['search'])
+                        LIKE "%%%s%%"',
+                        mysqli_real_escape_string($db,$_POST['search'])
           );
-        $accounts = mysqli_query($db,$sql) or die(mysqli_error($db));
+        $account = mysqli_query($db,$sql) or die(mysqli_error($db));
     }
     
 
@@ -65,14 +57,14 @@
       <div class="page-header">
         <h1>アカウント一覧</h1>
       </div>
-       <?php if($account = mysqli_fetch_assoc($accounts)): ?>
-          <div>
+       <?php if($accounts = mysqli_fetch_assoc($account)): ?>
+          <div>画像：
             <img src="twitter_picture/<?php echo $account['picture'] ?>" width="100" height="100">
           </div>
-          <p>名前 : <span class="name"><?php echo $tweet['name']; ?> </span></p>
+          <p>名前 : <span class="name"><?php echo $accounts['name']; ?> </span></p>
           <p>
           アカウント : <br>
-            <?php echo $tweet['username']; ?>
+            <?php echo $accounts['username']; ?>
           </p>
 
        <?php endif ?>

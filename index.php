@@ -122,52 +122,62 @@
 
         <legend>ようこそ<?php echo $member['name']; ?>さん！</legend>
           <h1>おもしろtwitterアカウント</h1>
+          <table class="table table-striped table-condensed">
 
           <form action="" method="post" enctype="multipart/form-data">
             <div class="lead">追加したい時
-              <div>ツイッター名
-                <input type="text" name="name" value="<?php echo $name; ?>">
+              <tr>
+              <td><div>ツイッター名</div></td>
+               <td><div> <input type="text" name="name" value="<?php echo $name; ?>">
                   <?php if(isset($error['name']) && $error['name'] == 'blank'): ?>
                     <p class="error">※ツイッター名を入力してください</p>
                   <?php endif; ?>
-               </div>
+                </div></td>
+               </tr>
 
-            <div>アカウント　
-              <input type="text" name="username" value="<?php echo $username; ?>">
+            <tr>
+              <td><div>アカウント</div></td>
+               <td><div><input type="text" name="username" value="<?php echo $username; ?>">
                 <?php if(isset($error['username']) && $error['username'] == 'blank'): ?>
                   <p class="error">※アカウントIDを入力してください</p>
                 <?php endif; ?>
-            </div>
+               </div></td>
+            </tr>
 
-            <div>画像
-              <p><input type="file" name="picture">
+            <tr>
+              <td><div>画像</div></td>
+                <td><div><p><input type="file" name="picture">
                 <?php if(isset($error['picture']) && $error['picture'] == 'type'): ?><br>
                   <p style="color:red;">✴︎　プロフィール画像は「jpg」「gif」「png」の画像を指定してください</p>
                 <?php endif; ?>
                 <?php if(!empty($error)): ?><br>
                   <p style="color:red;">✴︎　画像を再設定してください</p>
                 <?php endif; ?>
-              </p>
-            </div>
+               </p>
+              </div></td>
+              
+            </tr>
 
-              <div>コメント
-                <textarea name="comment" ><?php echo $comment; ?></textarea>
-              </div>
+              <tr>
+                <td><div>コメント</div></td>
+                <td><div><textarea name="comment" ><?php echo $comment; ?></textarea></div></td>
+              </tr>
 
               <div>
-                <input type="submit" value="登録する">
+                <td><div><input type="submit" value="登録する"></div></td>
               </div>
             </form>
           </div>
+          </table>
 
 
         <form action="view.php" method="post">
-        <h3>検索したい時</h3>
-        <input type="text" name="search">
-        <input type="submit" value="検索" class="btn btn-success btn-xs">
-        <input type="hidden" name="">
+          <h3>検索したい時</h3>
+          <input type="text" name="search">
+          <input type="submit" value="検索" class="btn btn-success btn-xs">
+       </form>
       </div>  
-      </form>
+     
       </div>
 
 

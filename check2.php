@@ -97,6 +97,10 @@
                   <td><div class="text-center">アカウント画像</div></td>
                   <td><div class="text-center"><img src="twitter_picture/<?php echo $_SESSION['join']['picture']; ?>" width="100" width="100" height="100"></div></td>
                 </tr>
+                <tr>
+                <td><div class="text-center">コメント</div></td>
+                <td><div class="text-center"><?php echo $_SESSION['join']['comment'] ?></div></td>
+                </tr>
               </tbody>
             </table>
             <input type="submit" class="btn btn-default" value="アカウント登録">
