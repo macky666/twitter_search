@@ -32,35 +32,32 @@
           if(strlen($_POST['password']) < 4){
               $error['password'] ='length';
           }
-      
-    }
 
-    
-    // 重複アカウントのチェック
-    if(empty($error)){
-        $sql = sprintf('SELECT COUNT(*) As cnt 
-                        FROM `members` 
-                        WHERE `email`="%s"',mysqli_real_escape_string($db,$_POST['email']));
-        $record = mysqli_query($db,$sql) or die(mysqli_error($db));
-        $table = mysqli_fetch_assoc($record);
-        if($table['cnt'] > 0){
-          $error['email'] = 'duplicate';
+      // 重複アカウントのチェック
+      if(empty($error)){
+          $sql = sprintf('SELECT COUNT(*) As cnt 
+                          FROM `members` 
+                          WHERE `email`="%s"',mysqli_real_escape_string($db,$_POST['email']));
+          $record = mysqli_query($db,$sql) or die(mysqli_error($db));
+          $table = mysqli_fetch_assoc($record);
+          if($table['cnt'] > 0){
+            $error['email'] = 'duplicate';
+          }
+
+      }
+
+        // エラーがなかった場合の処理
+        if(empty($error)){
+
+             $_SESSION['join'] = $_POST;
+             header('Location: check.php');
+             exit();
+
         }
-
-       
-    }
-
-    // エラーがなかった場合の処理
-    if(empty($error)){
-
-         $_SESSION['join'] = $_POST;
-        header('Location: check.php');
-        exit();
-
     }
 
 
-// 書き直し処理
+    // 書き直し処理
     if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'rewrite'){
       $_POST = $_SESSION['join'];
       $name = $_POST['name'];

@@ -11,11 +11,14 @@
                             `username`="%s",
                             `picture`="%s",
                             `comment`="%s",
+                            `member_id`="%s",
                             `created`=NOW()',
                mysqli_real_escape_string($db,$_SESSION['join']['name']),
                mysqli_real_escape_string($db,$_SESSION['join']['username']),
-               mysqli_real_escape_string($db,sha1($_SESSION['join']['picture'])),
-               mysqli_real_escape_string($db,$_SESSION['join']['comment']));
+               mysqli_real_escape_string($db,$_SESSION['join']['picture']),
+               mysqli_real_escape_string($db,$_SESSION['join']['comment']),
+               mysqli_real_escape_string($db,$_SESSION['id'])
+               );
               mysqli_query($db,$sql) or die(mysqli_error($db));
               unset($_SESSION['join']);
 

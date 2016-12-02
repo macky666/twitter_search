@@ -9,8 +9,12 @@
     
 
     if(!empty($_POST)){
-     // 登録処理をする
-        $sql = sprintf('INSERT INTO `members` SET `name`="%s", `email`="%s",`password`="%s",`created`=NOW()',
+       // 登録処理をする
+       $sql = sprintf('INSERT INTO `members` 
+                       SET `name`="%s", 
+                           `email`="%s",
+                           `password`="%s",
+                           `created`=NOW()',
         mysqli_real_escape_string($db,$_SESSION['join']['name']),
         mysqli_real_escape_string($db,$_SESSION['join']['email']),
         mysqli_real_escape_string($db,sha1($_SESSION['join']['password'])));
@@ -25,7 +29,7 @@
 
 
 <form action="check.php" method="post">
-  <input type="hidden" name="action" value="submit" />
+  <input type="hidden" name="action" value="submit" >
   <dl>
     <dt>ニックネーム</dt>
     <dd>

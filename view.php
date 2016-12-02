@@ -5,14 +5,18 @@
 
     // 検索処理
     if(!empty($_POST)){
-        $sql = sprintf('SELECT `name`,`comment`
-                        FROM `accounts` 
-                        LIKE "%%%s%%"',
+        $sql = sprintf('SELECT *
+                        FROM `accounts`
+                        WHERE `name` LIKE "%%%s%%"
+                        OR `username` LIKE "%%%s%%"
+                        OR `comment` LIKE "%%%s%%"',
+                        mysqli_real_escape_string($db,$_POST['search']),
+                        mysqli_real_escape_string($db,$_POST['search']),
                         mysqli_real_escape_string($db,$_POST['search'])
           );
+        // var_dump($sql);
         $account = mysqli_query($db,$sql) or die(mysqli_error($db));
     }
-    
 
 
  ?>
@@ -57,17 +61,21 @@
       <div class="page-header">
         <h1>アカウント一覧</h1>
       </div>
-       <?php if($accounts = mysqli_fetch_assoc($account)): ?>
+       <?php while($accounts = mysqli_fetch_assoc($account)): ?>
           <div>画像：
-            <img src="twitter_picture/<?php echo $account['picture'] ?>" width="100" height="100">
+            <img src="twitter_picture/<?php echo $accounts['picture'] ?>" width="100" height="100">
           </div>
           <p>名前 : <span class="name"><?php echo $accounts['name']; ?> </span></p>
           <p>
           アカウント : <br>
             <?php echo $accounts['username']; ?>
           </p>
+           <p>
+          コメント : <br>
+            <?php echo $accounts['comment']; ?>
+          </p>
 
-       <?php endif ?>
+       <?php endwhile ?>
 
        
     </div>
